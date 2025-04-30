@@ -38,14 +38,16 @@
                             </div>
                         </div>
 
-                        <div class="mb-0">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Login') }}
-                            </button>
+                        <div class="row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-dark">
+                                    {{ __('Login') }}
+                                </button>
 
-                            <a href="{{ route('register') }}" class="btn btn-link">
-                                {{ __('Need an account? Register') }}
-                            </a>
+                                <a href="{{ route('register') }}" class="btn btn-link">
+                                    {{ __('Need an account? Register') }}
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </div>

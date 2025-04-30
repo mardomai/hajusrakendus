@@ -7,7 +7,9 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Blog Posts</h4>
-                    <a href="{{ route('blog.create') }}" class="btn btn-primary">Create New Post</a>
+                    <div class="col text-end">
+                        <a href="{{ route('blog.create') }}" class="btn btn-dark">Create New Post</a>
+                    </div>
                 </div>
 
                 <div class="card-body">
@@ -38,7 +40,7 @@
                                         </p>
                                         <p class="card-text">{{ Str::limit($post->content, 200) }}</p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <a href="{{ route('blog.show', $post) }}" class="btn btn-primary">Read More</a>
+                                            <a href="{{ route('blog.show', $post) }}" class="btn btn-dark">Read More</a>
                                             @if(Auth::id() === $post->user_id)
                                                 <div>
                                                     <a href="{{ route('blog.edit', $post) }}" class="btn btn-secondary">Edit</a>

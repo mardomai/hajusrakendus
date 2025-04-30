@@ -11,9 +11,9 @@
 
                 <div class="card-body">
                     <div class="mb-4">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="location" placeholder="Enter city name">
-                            <button class="btn btn-primary" onclick="getWeather()">Search</button>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="location" placeholder="Enter location">
+                            <button class="btn btn-dark" onclick="getWeather()">Search</button>
                         </div>
                     </div>
 

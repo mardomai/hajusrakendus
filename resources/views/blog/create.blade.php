@@ -33,7 +33,7 @@
 
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('blog.index') }}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Create Post</button>
+                            <button type="submit" class="btn btn-dark">Create Post</button>
                         </div>
                     </form>
                 </div>

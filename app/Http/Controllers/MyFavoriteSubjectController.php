@@ -20,6 +20,32 @@ class MyFavoriteSubjectController extends Controller
         return view('favorite-subjects.create');
     }
 
+    public function editView(MyFavoriteSubject $myFavoriteSubject)
+    {
+        return view('favorite-subjects.edit', compact('myFavoriteSubject'));
+    }
+
+    public function storeView(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'required|image|max:2048',
+            'category' => 'required|string|max:255',
+            'rating' => 'required|integer|min:1|max:5'
+        ]);
+
+        $imagePath = $request->file('image')->store('subjects', 'public');
+        $validated['image'] = Storage::url($imagePath);
+
+        MyFavoriteSubject::create($validated);
+
+        Cache::forget('favorite_subjects_list');
+
+        return redirect()->route('favorite-subjects.index')
+            ->with('success', 'Subject created successfully!');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +53,7 @@ class MyFavoriteSubjectController extends Controller
     {
         $limit = $request->input('limit', 10);
         
-        $subjects = Cache::remember('favorite_subjects_' . $limit, 3600, function () use ($limit) {
+        $subjects = Cache::remember('favorite_subjects_list', 3600, function () use ($limit) {
             return MyFavoriteSubject::latest()->take($limit)->get();
         });
 
@@ -60,7 +86,7 @@ class MyFavoriteSubjectController extends Controller
 
         $subject = MyFavoriteSubject::create($validated);
 
-        Cache::tags('favorite_subjects')->flush();
+        Cache::forget('favorite_subjects_list');
 
         return response()->json($subject, 201);
     }
@@ -105,7 +131,7 @@ class MyFavoriteSubjectController extends Controller
 
         $myFavoriteSubject->update($validated);
 
-        Cache::tags('favorite_subjects')->flush();
+        Cache::forget('favorite_subjects_list');
 
         return response()->json($myFavoriteSubject);
     }
@@ -120,9 +146,40 @@ class MyFavoriteSubjectController extends Controller
         }
 
         $myFavoriteSubject->delete();
+        Cache::forget('favorite_subjects_list');
 
-        Cache::tags('favorite_subjects')->flush();
+        if (request()->expectsJson()) {
+            return response()->json(null, 204);
+        }
 
-        return response()->json(null, 204);
+        return redirect()->route('favorite-subjects.index')
+            ->with('success', 'Subject deleted successfully!');
+    }
+
+    public function updateView(Request $request, MyFavoriteSubject $myFavoriteSubject)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+            'category' => 'required|string|max:255',
+            'rating' => 'required|integer|min:1|max:5'
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($myFavoriteSubject->image) {
+                Storage::delete(str_replace('/storage/', 'public/', $myFavoriteSubject->image));
+            }
+            
+            $imagePath = $request->file('image')->store('subjects', 'public');
+            $validated['image'] = Storage::url($imagePath);
+        }
+
+        $myFavoriteSubject->update($validated);
+
+        Cache::forget('favorite_subjects_list');
+
+        return redirect()->route('favorite-subjects.index')
+            ->with('success', 'Subject updated successfully!');
     }
 }

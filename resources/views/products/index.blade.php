@@ -1,60 +1,71 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Products</span>
-                    <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
-                </div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <h2 class="text-dark mb-0">Game Store</h2>
+        </div>
+    </div>
 
-                <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    <div class="row g-4">
+        @foreach ($products as $product)
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="position-relative">
+                        <img src="{{ $product->image_path }}" 
+                             class="card-img-top" 
+                             alt="{{ $product->name }}"
+                             style="height: 250px; object-fit: cover;">
+                        <div class="position-absolute top-0 end-0 p-2">
+                            <span class="badge bg-dark">
+                                ${{ number_format($product->price, 2) }}
+                            </span>
                         </div>
-                    @endif
-
-                    <div class="row">
-                        @foreach ($products as $product)
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <img src="{{ $product->image_path }}" class="card-img-top" alt="{{ $product->name }}" style="height: 200px; object-fit: cover;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $product->name }}</h5>
-                                        <p class="card-text">{{ Str::limit($product->description, 100) }}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="h5 mb-0">${{ number_format($product->price, 2) }}</span>
-                                            <span class="text-muted">Stock: {{ $product->stock }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer bg-transparent">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-primary">Edit</a>
-                                                <form action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                                                </form>
-                                            </div>
-                                            <form action="{{ route('cart.add', $product) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-success" {{ $product->stock > 0 ? '' : 'disabled' }}>
-                                                    Add to Cart
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-3">{{ $product->name }}</h5>
+                        <p class="card-text text-muted">
+                            {{ $product->description }}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-light text-dark">
+                                Stock: {{ $product->stock }}
+                            </span>
+                            <form action="{{ route('cart.add', $product) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" 
+                                        class="btn btn-dark {{ $product->stock > 0 ? '' : 'disabled' }}"
+                                        {{ $product->stock > 0 ? '' : 'disabled' }}>
+                                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
 </div>
+
+@push('styles')
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .btn-dark {
+        padding: 0.5rem 1.5rem;
+    }
+</style>
+@endpush
 @endsection 

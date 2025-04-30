@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Map Markers</span>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMarkerModal">
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addMarkerModal">
                         Add Marker
                     </button>
                 </div>
@@ -40,7 +40,7 @@
                                         <td>{{ $marker->description }}</td>
                                         <td>{{ $marker->latitude }}, {{ $marker->longitude }}</td>
                                         <td>
-                                            <a href="{{ route('markers.edit', $marker) }}" class="btn btn-sm btn-primary">Edit</a>
+                                            <a href="{{ route('markers.edit', $marker) }}" class="btn btn-sm btn-dark">Edit</a>
                                             <form action="{{ route('markers.destroy', $marker) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
@@ -89,7 +89,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Marker</button>
+                    <button type="submit" class="btn btn-dark">Save Marker</button>
                 </div>
             </form>
         </div>

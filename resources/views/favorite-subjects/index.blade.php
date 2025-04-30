@@ -2,20 +2,21 @@
 
 @section('content')
 <div class="container mt-4">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="row mb-4">
         <div class="col">
             <h1>My Favorite Subjects</h1>
         </div>
         <div class="col text-end">
-            <a href="{{ route('favorite-subjects.create') }}" class="btn btn-primary">Add New Subject</a>
+            <a href="{{ route('favorite-subjects.create') }}" class="btn btn-dark">Add New Subject</a>
         </div>
     </div>
-
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <div class="row">
         @forelse($subjects as $subject)
@@ -28,7 +29,7 @@
                         <h5 class="card-title">{{ $subject->title }}</h5>
                         <p class="card-text">{{ Str::limit($subject->description, 100) }}</p>
                         <div class="d-flex justify-content-between align-items-center">
-                            <span class="badge bg-primary">{{ $subject->category }}</span>
+                            <span class="badge bg-dark">{{ $subject->category }}</span>
                             <div class="rating">
                                 @for($i = 1; $i <= 5; $i++)
                                     @if($i <= $subject->rating)
@@ -42,8 +43,12 @@
                     </div>
                     <div class="card-footer">
                         <div class="btn-group w-100">
-                            <button class="btn btn-primary btn-sm edit-subject" data-id="{{ $subject->id }}">Edit</button>
-                            <button class="btn btn-danger btn-sm delete-subject" data-id="{{ $subject->id }}">Delete</button>
+                            <a href="{{ route('favorite-subjects.edit', $subject) }}" class="btn btn-dark btn-sm">Edit</a>
+                            <form action="{{ route('favorite-subjects.destroy', $subject) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this subject?')">Delete</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -61,37 +66,4 @@
         {{ $subjects->links() }}
     </div>
 </div>
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Delete subject
-    document.querySelectorAll('.delete-subject').forEach(button => {
-        button.addEventListener('click', function() {
-            if (confirm('Are you sure you want to delete this subject?')) {
-                const id = this.dataset.id;
-                fetch(`/api/favorite-subjects/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.reload();
-                    }
-                });
-            }
-        });
-    });
-
-    // Edit subject (redirect to edit page)
-    document.querySelectorAll('.edit-subject').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.dataset.id;
-            window.location.href = `/favorite-subjects/${id}/edit`;
-        });
-    });
-});
-</script>
-@endpush
 @endsection 

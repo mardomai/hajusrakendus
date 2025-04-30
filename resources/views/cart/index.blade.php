@@ -71,7 +71,7 @@
                     @else
                         <div class="text-center">
                             <p>Your cart is empty.</p>
-                            <a href="{{ route('products.index') }}" class="btn btn-primary">Start Shopping</a>
+                            <a href="{{ route('products.index') }}" class="btn btn-dark">Start Shopping</a>
                         </div>
                     @endif
                 </div>

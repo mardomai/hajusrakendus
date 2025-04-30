@@ -57,13 +57,32 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/cart/checkout', [CartController::class, 'showCheckout'])->name('cart.showCheckout');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/payment/process', [CartController::class, 'processPayment'])->name('payment.process');
 
 // Favorite Subjects routes
 Route::get('/favorite-subjects', [MyFavoriteSubjectController::class, 'indexView'])->name('favorite-subjects.index');
 Route::get('/favorite-subjects/create', [MyFavoriteSubjectController::class, 'createView'])->name('favorite-subjects.create');
+Route::post('/favorite-subjects', [MyFavoriteSubjectController::class, 'storeView'])->name('favorite-subjects.store');
 Route::get('/favorite-subjects/{myFavoriteSubject}/edit', [MyFavoriteSubjectController::class, 'editView'])->name('favorite-subjects.edit');
-// API routes for favorite subjects
+Route::put('/favorite-subjects/{myFavoriteSubject}', [MyFavoriteSubjectController::class, 'updateView'])->name('favorite-subjects.update');
+Route::delete('/favorite-subjects/{myFavoriteSubject}', [MyFavoriteSubjectController::class, 'destroy'])->name('favorite-subjects.destroy');
+
+// API routes for favorite subjects (moved to the end and prefixed with api)
 Route::prefix('api')->group(function () {
-    Route::resource('favorite-subjects', MyFavoriteSubjectController::class);
+    Route::get('favorite-subjects', [MyFavoriteSubjectController::class, 'index']);
+    Route::post('favorite-subjects', [MyFavoriteSubjectController::class, 'store']);
+    Route::get('favorite-subjects/{myFavoriteSubject}', [MyFavoriteSubjectController::class, 'show']);
+    Route::put('favorite-subjects/{myFavoriteSubject}', [MyFavoriteSubjectController::class, 'update']);
+    Route::delete('favorite-subjects/{myFavoriteSubject}', [MyFavoriteSubjectController::class, 'destroy']);
 });
+
+Route::get('/test-images', function () {
+    return view('products.test');
+});
+
+// Monsters route
+Route::get('/monsters', function () {
+    return view('monsters.index');
+})->name('monsters.index');

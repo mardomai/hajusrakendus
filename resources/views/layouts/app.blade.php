@@ -40,10 +40,10 @@
         }
         .nav-link:hover {
             background-color: #f8f9fa;
-            color: #007bff !important;
+            color: #ffffff !important;
         }
         .nav-link.active {
-            color: #007bff !important;
+            color: #000000 !important;
             font-weight: bold;
         }
         .card {
@@ -93,8 +93,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('favorite-subjects.*') ? 'active' : '' }}" href="{{ url('api/favorite-subjects') }}">
+                        <a class="nav-link {{ request()->routeIs('favorite-subjects.*') ? 'active' : '' }}" href="/favorite-subjects">
                             <i class="fas fa-star"></i> Favorite Subjects
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('monsters.*') ? 'active' : '' }}" href="{{ route('monsters.index') }}">
+                            <i class="fas fa-code"></i> API View
                         </a>
                     </li>
                 </ul>
@@ -111,7 +116,7 @@
                                 }, $cartItems));
                             @endphp
                             @if($cartCount > 0)
-                                <span class="badge bg-primary">{{ $cartCount }}</span>
+                                <span class="badge bg-dark">{{ $cartCount }}</span>
                             @endif
                         </a>
                     </li>

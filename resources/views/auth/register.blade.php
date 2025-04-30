@@ -44,14 +44,16 @@
                                 name="password_confirmation" required autocomplete="new-password">
                         </div>
 
-                        <div class="mb-0">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Register') }}
-                            </button>
+                        <div class="row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-dark">
+                                    {{ __('Register') }}
+                                </button>
 
-                            <a href="{{ route('login') }}" class="btn btn-link">
-                                {{ __('Already have an account? Login') }}
-                            </a>
+                                <a href="{{ route('login') }}" class="btn btn-link">
+                                    {{ __('Already have an account? Login') }}
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </div>
