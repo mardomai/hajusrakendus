@@ -106,9 +106,9 @@
 @push('scripts')
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    console.log('Stripe Key:', '{{ $key }}');
     // Initialize Stripe with the publishable key
-    const stripe = Stripe('{{ $key }}', {
+
+    const stripe = Stripe('pk_test_51RFKiqQcUuEgeSZZAbQ4cLdbWNlxoTIw0CO8cEK95ItWptGlFxS6qEemBJE9rzd5nGg4brBcZMfI8o1jkwWRv16300vRinDinh', {
         locale: 'en'
     });
     const elements = stripe.elements();
