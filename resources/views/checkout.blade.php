@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0">Checkout</h1>
+                <h1 class="h3 mb-0">Checkoutt</h1>
                 <a href="{{ route('cart.index') }}" class="btn btn-outline-dark">
                     <i class="fas fa-arrow-left"></i> Back to Cart
                 </a>

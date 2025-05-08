@@ -11,15 +11,12 @@ hosts:
 tasks:
   opcache:clear:
     - run: killall php84-cgi || true
-  npm:production:
-    - run: "cd {{release_path}} && npm ci"
-    - run: "cd {{release_path}} && npx vite build"
+
   sqlite:dbcreate:
     - run: "cd {{release_path}} && cd database && touch database.sqlite"
   deploy:
     - "deploy:prepare"
     - "deploy:vendors"
-    - "npm:production"
     - "artisan:storage:link"
     # - "artisan:optimize:clear"
     # - "artisan:optimize"
