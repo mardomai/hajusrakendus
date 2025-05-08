@@ -54,10 +54,8 @@ class ProductSeeder extends Seeder
             ]
         ];
 
-        // Clear existing products first
         Product::truncate();
 
-        // Create new products
         foreach ($products as $product) {
             Product::create($product);
         }

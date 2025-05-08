@@ -82,6 +82,16 @@ Route::get('/test-images', function () {
     return view('products.test');
 });
 
+
+// Temporary debug route for Stripe configuration - REMOVE AFTER DEBUGGING
+Route::get('/debug-stripe', function () {
+    return [
+        'stripe_key' => config('services.stripe.key'),
+        'config_exists' => config()->has('services.stripe.key'),
+        'env_exists' => !empty(env('STRIPE_KEY')),
+    ];
+});
+
 // Monsters route
 Route::get('/monsters', function () {
     return view('monsters.index');

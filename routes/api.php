@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\WeatherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/monsters', [ApiController::class, 'getMonsters']);
 
 // External API endpoints
-Route::get('/weather/{location}', [ApiController::class, 'getWeather']);
+Route::get('/weather/{location}', [WeatherController::class, 'show']);
 
 // Stripe API endpoints
 Route::prefix('stripe')->group(function () {

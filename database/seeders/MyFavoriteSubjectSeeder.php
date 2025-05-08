@@ -9,7 +9,6 @@ class MyFavoriteSubjectSeeder extends Seeder
 {
     public function run(): void
     {
-        // ... existing code ...
         $subjects = [
             [
                 'title' => 'God of War',
@@ -55,10 +54,8 @@ class MyFavoriteSubjectSeeder extends Seeder
             ],
         ];
 
-        // Clear existing subjects first
         MyFavoriteSubject::truncate();
 
-        // Create new subjects
         foreach ($subjects as $subject) {
             MyFavoriteSubject::create($subject);
         }

@@ -39,7 +39,6 @@ class CartController extends Controller
                 $total += $product->price * $quantity;
             }
         }
-
         return view('cart.index', compact('products', 'total'));
     }
 
@@ -110,8 +109,8 @@ class CartController extends Controller
         if (empty($items)) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
-
-        return view('checkout', compact('items', 'total'));
+        $key = config('services.stripe.key');
+        return view('checkout', compact('items', 'total', 'key'));
     }
 
     public function checkout(Request $request)
